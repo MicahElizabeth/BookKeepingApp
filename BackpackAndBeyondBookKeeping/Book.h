@@ -71,12 +71,12 @@ public:
 	}
 #pragma endregion
 #pragma region Edits
-	void addExpense(int cycle, string name, Date date, string category, double amount, string store, int numItems)
+	void addExpense(int cycle, string name, Date date, string category, int amount, string store, int numItems)
 	{
 		mBook[cycle].addExpense(cycle, name, date, category, amount, store, numItems);
 		
 	}
-	void addDonation(int cycle, string name, Date date, string category, double amount)
+	void addDonation(int cycle, string name, Date date, string category, int amount)
 	{
 		
 		mBook[cycle].addDonation(cycle, name, date, category, amount);

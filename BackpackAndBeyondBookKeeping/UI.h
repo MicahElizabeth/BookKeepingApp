@@ -194,26 +194,40 @@ public:
 
 		return numItems;
 	}
-	//get amount
-	static double getAmount()
+	//get amount returns the number of cents
+	static int getAmount()
 	{
-		double amount = 0.00;
+		string str = "";
+		int amount = 0;
 
 		cout << "Amount: ";
 		fflush(stdin);
-		cin >> amount;
+		cin >> str;
+		str += "."; //for the splitter
+		queue<string> q = Utility::splitter(str, '.');
+
+		amount = stoi(q.front()) * 100;
+		q.pop();
+		amount += stoi(q.front());
 
 		return amount;
 	}
 
-	//get balance
-	static double getBalance()
+	//get balance in cents
+	static int getBalance()
 	{
-		double balance = 0.00;
+		string str = "";
+		int balance = 0;
 
 		cout << "New Initial Balance: ";
 		fflush(stdin);
-		cin >> balance;
+		cin >> str;
+		str += "."; //for the splitter
+		queue<string> q = Utility::splitter(str, '.');
+
+		balance = stoi(q.front()) * 100;
+		q.pop();
+		balance += stoi(q.front());
 
 		return balance;
 	}
@@ -547,6 +561,9 @@ public:
 	{
 		system("cls");
 		int choice = -1;
+		int initialBalance = info.getInitialBalance();
+		int balance = info.getBalance();
+
 		do
 		{
 			cout << "\t\t\t\tAccount Info" << endl
@@ -555,8 +572,8 @@ public:
 				<< "Password: " << info.getPassword() << endl
 				<< "Year Start: " << info.getYearStart().getMonth() << "/" << info.getYearStart().getDay() << endl
 				<< "Year End: " << info.getYearEnd().getMonth() << "/" << info.getYearEnd().getDay() << endl
-				<< "Initial Balance: " << info.getInitialBalance() << endl
-				<< "Balance: " << info.getBalance() << endl
+				<< "Initial Balance: " << initialBalance/100<< "."<< initialBalance%100 << endl
+				<< "Balance: " <<balance / 100 << "." << balance % 100 << endl
 				<< endl;
 			cout << "1. Edit" << endl
 				<< "2. Back" << endl

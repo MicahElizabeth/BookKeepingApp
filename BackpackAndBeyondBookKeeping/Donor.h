@@ -17,7 +17,7 @@ private:
 	string mPhoneNumber;
 	string mName;
 	unordered_map<int,vector<Donation>> mDonations; //key: year value: donations in a year
-	double mTotal;
+	int mTotal;
 public:
 #pragma region Big5
 	//constructor
@@ -90,7 +90,7 @@ public:
 	{
 		mDonations = donations;
 	}
-	void setTotal(double total)
+	void setTotal(int total)
 	{
 		mTotal = total;
 	}
@@ -115,7 +115,7 @@ public:
 	{
 		return mDonations;
 	}
-	double getTotal()
+	int getTotal()
 	{
 		return mTotal;
 	}

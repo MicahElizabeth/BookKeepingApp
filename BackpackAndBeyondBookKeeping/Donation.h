@@ -9,7 +9,7 @@ private:
 public:
 #pragma region Big5
 	//constructor
-	Donation(int cycle = 0, string category = "", string name = "", int month = 0, int day = 0, int year = 0, double amount = 0.00)
+	Donation(int cycle = 0, string category = "", string name = "", int month = 0, int day = 0, int year = 0, int amount = 0)
 		:Transaction(cycle, category, name, month, day, year, amount){}
 	//destructor
 	~Donation(){}

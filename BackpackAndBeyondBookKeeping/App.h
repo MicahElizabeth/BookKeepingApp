@@ -246,7 +246,7 @@ public:
 			}
 			else if (temp == 2)
 			{
-				mHistory.push(70);
+				mHistory.push(90);
 			}
 		}
 	}
@@ -402,7 +402,7 @@ public:
 		{
 			mHistory.pop();
 			string name = UI::getName(), category = UI::getCategory(), store = UI::getStore();
-			double amount = UI::getAmount() * (-1); //expenses are negative
+			int amount = UI::getAmount() * (-1); //expenses are negative
 			int numItems = UI::getNumItems(), cycle = UI::getCycle();
 			Date date{ UI::getMonth(), UI::getDay(), UI::getYear() };
 
@@ -417,7 +417,7 @@ public:
 		{
 			mHistory.pop();
 			string name = UI::getName(), category = "Donation";
-			double amount = UI::getAmount();
+			int amount = UI::getAmount();
 			int cycle = UI::getCycle();
 			Date date{ UI::getMonth(), UI::getDay(), UI::getYear() };
 			unordered_map<string, Donor> temp = mUser.getDonors();
@@ -464,11 +464,11 @@ public:
 				case 2:
 					if (UI::isAllCycles())
 					{
-						mUser.summaryReport(-1);
+						//mUser.summaryReport(-1);
 					}
 					else
 					{
-						mUser.summarydReport(UI::getCycle());
+						//mUser.summarydReport(UI::getCycle());
 					}
 					break;
 				case 3:
@@ -476,38 +476,38 @@ public:
 					{
 						if (UI::isAllCycles())
 						{
-							mUser.donorReports(-1);
+							//mUser.donorReports(-1);
 						}
 						else
 						{
-							mUser.donorReports(UI::getCycle());
+							//mUser.donorReports(UI::getCycle());
 						}
 					}
 					else
 					{
 						if (UI::isAllCycles())
 						{
-							mUser.donorReports(UI::getName(), -1);
+							//mUser.donorReports(UI::getName(), -1);
 						}
 						else
 						{
-							mUser.donorReports(UI::getName(), UI::getCycle());
+							//mUser.donorReports(UI::getName(), UI::getCycle());
 						}
 					}
 					break;
 				case 4:
 					if (UI::isAllCycles())
 					{
-						mUser.detailedReport(-1);
+						/*mUser.detailedReport(-1);
 						mUser.summaryReport(-1);
-						mUser.donorReports(-1);
+						mUser.donorReports(-1);*/
 					}
 					else
 					{
 						int cycle = UI::getCycle();
-						mUser.detailedReport(cycle);
+						/*mUser.detailedReport(cycle);
 						mUser.summaryReport(cycle);
-						mUser.donorReports(cycle);
+						mUser.donorReports(cycle);*/
 					}
 					break;
 				default: mHistory.push(-1);
@@ -524,7 +524,7 @@ public:
 	void run()
 	{
 		//load accounts
-		int view = 70;
+		int view = 90;
 		//load list of accounts into HT
 		mHistory.push(view);
 		do

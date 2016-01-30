@@ -7,6 +7,8 @@
 #include <queue>
 #include "Book.h"
 #include "Donor.h"
+#include "Utility.h"
+
 using std::string;
 using std::unordered_map;
 using std::ifstream;
@@ -21,8 +23,8 @@ class Account
 private:
 	string mUsername;
 	string mPassword;
-	double mBalance;
-	double mInitialBalance;
+	int mBalance;
+	int mInitialBalance;
 	Book mBook; // key:year value:detailed report for the year
 	unordered_map<string, Donor> mDonors; //key:name value:Donor
 	Date mYearStart;
@@ -107,7 +109,7 @@ public:
 	{
 		mPassword = password;
 	}
-	void setBalance(double balance)
+	void setBalance(int balance)
 	{
 		mBalance = balance;
 	}
@@ -127,7 +129,7 @@ public:
 	{
 		mYearEnd = end;
 	}
-	void setInitialBalance(double balance)
+	void setInitialBalance(int balance)
 	{
 		mInitialBalance = balance;
 	}
@@ -139,7 +141,7 @@ public:
 	{
 		return mPassword;
 	}
-	double getBalance()
+	int getBalance()
 	{
 		return mBalance;
 	}
@@ -159,14 +161,14 @@ public:
 	{
 		return mYearEnd;
 	}
-	double getInitialBalance()
+	int getInitialBalance()
 	{
 		return mInitialBalance;
 	}
 #pragma endregion
 #pragma region Edits
 	//add donation
-	void addDonation(int cycle, string name, Date date, string category, double amount)
+	void addDonation(int cycle, string name, Date date, string category, int amount)
 	{
 		unordered_map<int, Report> temp = mBook.getBook();
 		if (temp.find(cycle) == temp.end())
@@ -285,17 +287,17 @@ public:
 		
 		if (infile.is_open())
 		{
-			double tempDouble = 0.00;
+			int tempAmount = 0;
 			int tempInt = 0;
 			string tempString = "";
 
 			//read first line: initial balance
-			infile >> tempDouble;
-			mInitialBalance = tempDouble;
-			mBalance = tempDouble;
+			infile >> tempAmount;
+			mInitialBalance = tempAmount;
+			mBalance = tempAmount;
 			//read second line: startyear endyear
 			getline(infile, tempString);
-			queue<string> tempQ = splitter(tempString, ',');
+			queue<string> tempQ = Utility::splitter(tempString, ',');
 			while (!tempQ.empty())
 			{
 				tempString = tempQ.front();
@@ -314,7 +316,7 @@ public:
 			}
 			//read third line: name address email phone
 			getline(infile, tempString);
-			queue<string> tempQ = splitter(tempString, ',');
+			tempQ = Utility::splitter(tempString, ',');
 			while (!tempQ.empty())
 			{
 				tempString = tempQ.front();
@@ -335,7 +337,7 @@ public:
 			while (infile.good())
 			{
 				getline(infile, tempString);
-				queue<string> tempQ = splitter(tempString, ',');
+				queue<string> tempQ = Utility::splitter(tempString, ',');
 				while (!tempQ.empty())
 				{
 					if (tempQ.size() == 7)
@@ -399,24 +401,7 @@ public:
 		}
 	}
 
-	queue<string> splitter(string s, char delim)
-	{
-		string temp = "";
-		queue<string> result{};
-		for (auto i : s)
-		{
-			if (i != delim)
-			{
-				temp += i;
-			}
-			else
-			{
-				result.push(temp);
-				temp = "";
-			}
-		}
-		return result;
-	}
+	
 #pragma endregion
 };
 #endif

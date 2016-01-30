@@ -10,12 +10,12 @@ protected:
 	string mName;
 	Date mDate;
 	string mCategory;
-	double mAmount; //the total price of the items
+	int mAmount; //the total price of the items
 	int mCycle;
 public:
 #pragma region Big5
 	//constructor
-	Transaction(int cycle = 0, string category = "", string name = "", int month = 0, int day = 0, int year =  0, double amount = 0.00)
+	Transaction(int cycle = 0, string category = "", string name = "", int month = 0, int day = 0, int year =  0, int amount = 0)
 	{
 		mCategory = category;
 		mName = name;
@@ -85,7 +85,7 @@ public:
 		mDate = date;
 	}
 
-	void setAmount(double amount)
+	void setAmount(int amount)
 	{
 		mAmount = amount;
 	}
@@ -107,7 +107,7 @@ public:
 		return mDate;
 	}
 
-	double getAmount()
+	int getAmount()
 	{
 		return mAmount;
 	}

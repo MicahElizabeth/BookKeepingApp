@@ -15,8 +15,8 @@ class Report
 {
 private:
 	unordered_map<string, vector<Transaction>> mReport; // key: category vaule: vector of Transactions
-	double mStartBalance;
-	double mEndBalance;
+	int mStartBalance;
+	int mEndBalance;
 	Date mStartDate;
 	Date mEndDate;
 	int mId;
@@ -24,7 +24,7 @@ private:
 public:
 #pragma region Big5
 	//constructor
-	Report(double startbalance=0.0, double endbalance = 0.0, int startMonth=0, int startDay=0, int startYear = 0, int endMonth=0, int endDay=0, int endYear = 0, int id = -1)
+	Report(int startbalance=0, int endbalance = 0, int startMonth=0, int startDay=0, int startYear = 0, int endMonth=0, int endDay=0, int endYear = 0, int id = -1)
 	{
 		mStartBalance = startbalance;
 		mEndBalance = endbalance;
@@ -97,11 +97,11 @@ public:
 	{
 		mReport = report;
 	}
-	void setStartBalance(double startBalance)
+	void setStartBalance(int startBalance)
 	{
 		mStartBalance = startBalance;
 	}
-	void setEndBalance(double endBalance)
+	void setEndBalance(int endBalance)
 	{
 		mEndBalance = endBalance;
 	}
@@ -121,11 +121,11 @@ public:
 	{
 		return mReport;
 	}
-	double getStartBalance()
+	int getStartBalance()
 	{
 		return mStartBalance;
 	}
-	double getEndBalance()
+	int getEndBalance()
 	{
 		return mEndBalance;
 	}
@@ -152,7 +152,7 @@ public:
 #pragma endregion
 #pragma region add and remove
 	//add donation
-	void addDonation(int cycle, string name, Date date, string category, double amount)
+	void addDonation(int cycle, string name, Date date, string category, int amount)
 	{
 		if (date > mEndDate)
 		{
@@ -162,7 +162,7 @@ public:
 		mEndBalance += amount;
 	}
 	//add expense
-	void addExpense(int cycle, string name, Date date, string category, double amount, string store, int numItems)
+	void addExpense(int cycle, string name, Date date, string category, int amount, string store, int numItems)
 	{
 		if (date > mEndDate)
 		{

@@ -1,11 +1,16 @@
 #include "App.h"
-
-int main(void)
+#include "Test.h"
+int main(int argc, char* argv[])
 {
-	App myApp{};
-
-	myApp.run();
-	
+	if (argc == 1)
+	{
+		App myApp{};
+		myApp.run();
+	}
+	else
+	{
+		Test::testGetAmount();
+	}
 
 	return 0;
 }
