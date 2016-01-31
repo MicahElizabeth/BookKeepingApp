@@ -141,6 +141,89 @@ public:
 	{
 		return mId;
 	}
+
+	int getTotalExpenditures()
+	{
+		int total = 0;
+
+		for (auto i : mReport)
+		{
+			if (i.first != "Donation")
+			{
+				for (auto j : mReport[i.first])
+				{
+					total += j->getAmount();
+				}
+			}
+		}
+		return total;
+	}
+
+	int getTotalDonations()
+	{
+		int total;
+		for (auto i : mReport["Donation"])
+		{
+			total += i->getAmount();
+		}
+		return total;
+	}
+
+	vector<tuple<string, int, int> > getMonthTotals()
+	{
+		vector<tuple<string, int, int> > result{};
+		unordered_map < int, tuple<int, int>> temp{};
+
+		//sort by month
+		for (auto i : mReport)
+		{
+			for (auto j : mReport[i.first])
+			{
+				if (i.first == "Donation")
+				{
+					Date d = j->getDate();
+					get<1>(temp[d.getMonth()]) += j->getAmount();
+				}
+				else
+				{
+					Date d = j->getDate();
+					get<0>(temp[d.getMonth()]) += j->getAmount();
+				}
+			}
+		}
+
+		//put into the vector
+		result.push_back(tuple<string, int, int>{"January", get<0>(temp[1]), get<1>(temp[1])});
+		result.push_back(tuple<string, int, int>{"February", get<0>(temp[2]), get<1>(temp[2])});
+		result.push_back(tuple<string, int, int>{"March", get<0>(temp[3]), get<1>(temp[3])});
+		result.push_back(tuple<string, int, int>{"April", get<0>(temp[4]), get<1>(temp[4])});
+		result.push_back(tuple<string, int, int>{"May", get<0>(temp[5]), get<1>(temp[5])});
+		result.push_back(tuple<string, int, int>{"June", get<0>(temp[6]), get<1>(temp[6])});
+		result.push_back(tuple<string, int, int>{"July", get<0>(temp[7]), get<1>(temp[7])});
+		result.push_back(tuple<string, int, int>{"August", get<0>(temp[8]), get<1>(temp[8])});
+		result.push_back(tuple<string, int, int>{"September", get<0>(temp[9]), get<1>(temp[9])});
+		result.push_back(tuple<string, int, int>{"October", get<0>(temp[10]), get<1>(temp[10])});
+		result.push_back(tuple<string, int, int>{"November", get<0>(temp[11]), get<1>(temp[11])});
+		result.push_back(tuple<string, int, int>{"December", get<0>(temp[12]), get<1>(temp[12])});
+	}
+
+	vector<tuple<string, int>> getCategoryTotals()
+	{
+		vector<tuple<string, int> > result{};
+		
+		for (auto i : mReport)
+		{
+			int temp = 0;
+			for (auto j : mReport[i.first])
+			{
+				temp += j->getAmount();
+			}
+
+			result.push_back(tuple<string, int>{i.first, temp});
+		}
+
+		return result;
+	}
 #pragma endregion
 #pragma region writing and saving
 	
@@ -179,6 +262,7 @@ public:
 			if (mReport["Donation"][i]->getDate() == date && mReport["Donation"][i]->getName() == name && mReport["Donation"][i]->getAmount() == amount)
 			{
 				mReport["Donation"].erase(mReport["Donation"].begin() + i);
+				mEndBalance -= amount;
 				return true;
 			}
 		}
@@ -193,6 +277,7 @@ public:
 			if (mReport[category][i]->getDate() == date && mReport[category][i]->getName() == name && mReport[category][i]->getAmount() == amount)
 			{
 				mReport[category].erase(mReport[category].begin()+i);
+				mEndBalance -= amount;
 				return true;
 			}
 		}

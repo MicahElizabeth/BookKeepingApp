@@ -1,4 +1,4 @@
-/*TODO: print reports, remove expense/donation
+/*TODO: print reports, help page
 Future updates: Add GUI, ability to edit donor info*/
 
 #ifndef APP_H
@@ -483,11 +483,11 @@ public:
 				case 1:
 					if (UI::isAllCycles())
 					{
-						Writer::DetailedReport(-1, mUser.getBook());
+						//Writer::DetailedReport(-1, mUser.getBook());
 					}
 					else
 					{
-						Writer::DetailedReport(UI::getCycle(), mUser.getBook());
+						//Writer::DetailedReport(UI::getCycle(), mUser.getBook());
 					}
 					break;
 				case 2:
@@ -680,10 +680,7 @@ public:
 
 			infile.close();
 		}
-		else
-		{
-			cout << "Error: Could not open accounts file" << endl;
-		}
+		
 	}
 
 	void saveAccounts()
@@ -700,10 +697,6 @@ public:
 			}
 
 			outfile.close();
-		}
-		else
-		{
-			cout << "Error: Could not open accounts file" << endl;
 		}
 	}
 #pragma endregion
