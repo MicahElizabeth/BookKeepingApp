@@ -1,21 +1,25 @@
-/*TODO: change money to ints, print reports, save login info*/
+/*TODO: print reports, (save login info), make date entry more user friendly, remove expense/donation
+Future updates: Add GUI*/
 #ifndef APP_H
 #define APP_H
 
 #include <unordered_map>
 #include <string>
 #include <stack>
+#include <tuple>
 #include "Account.h"
 #include "UI.h"
 #include "Writer.h"
 using std::unordered_map;
 using std::string;
 using std::stack;
+using std::tuple;
+using std::get;
 
 class App
 {
 private:
-	unordered_map<string, string> mAccounts; //key:username value:password
+	unordered_map<string, tuple<string, string>> mAccounts; //key:username value:password
 	Account mUser;
 	stack<int> mHistory;
 	bool mLoggedIn;
@@ -23,23 +27,28 @@ private:
 	void encryptAccountInfo(string &username, string &password)
 	{
 		int temp;
+		string tempS = "";
 		for (auto i : username)
 		{
 			temp = i; 
 			temp = (((temp -'!') + 20) % 94) + '!';//asccii characters 33 to 126
-			i = temp;
+			tempS += temp;
 		}
+		username = tempS;
+		tempS = "";
 		for (auto i : password)
 		{
 			temp = i;
 			temp = (((temp -'!') + 10) % 94 )+ '!';//asccii characters 33 to 126
-			i = temp;
+			tempS += temp;
 		}
+		password = tempS;
 	}
 	//decrypt
 	void decryptUserInfo(string &username, string &password)
 	{
 		int temp;
+		string tempS = "";
 		for (auto i : username)
 		{
 			temp = i;
@@ -52,8 +61,10 @@ private:
 			{
 				temp += '!';
 			}
-			i = temp;
+			tempS += temp;
 		}
+		username = tempS;
+		tempS = "";
 		for (auto i : password)
 		{
 			temp = i;
@@ -66,8 +77,9 @@ private:
 			{
 				temp += '!';
 			}
-			i = temp;
+			tempS += temp;
 		}
+		password = tempS;
 	}
 	
 public:
@@ -121,7 +133,7 @@ public:
 	}
 #pragma endregion
 #pragma region Setters Getters
-	void setAccounts(unordered_map<string, string> accounts)
+	void setAccounts(unordered_map<string, tuple<string, string>> accounts)
 	{
 		mAccounts = accounts;
 	}
@@ -137,7 +149,7 @@ public:
 	{
 		mLoggedIn = status;
 	}
-	unordered_map<string, string> getAccounts()
+	unordered_map<string,tuple<string, string>> getAccounts()
 	{
 		return mAccounts;
 	}
@@ -155,8 +167,7 @@ public:
 	}
 #pragma endregion
 #pragma region Login Stuff
-	//load account
-		//load from 'username'.txt
+	
 	//make new account(username, password)
 	void newAccount()
 	{
@@ -200,7 +211,8 @@ public:
 				if (temp == 0)//vaild new username and password
 				{
 					//put in list of accounts
-					mAccounts[temp1] = tempPass[0];
+					mAccounts[temp1] = tuple<string,string>(temp1, tempPass[0]);
+					
 					//create new account
 					mUser = *(new Account(temp1, tempPass[0], UI::getBalance())); //initialbalance
 					mUser.setBalance(mUser.getInitialBalance());
@@ -232,7 +244,7 @@ public:
 				{
 					temp = 0;
 					mLoggedIn = true;
-					mUser.load();
+					mUser.load(temp1, temp2);
 				}
 				else
 				{
@@ -291,7 +303,7 @@ public:
 	//check password matches username
 	bool isCorrectPassword(string username, string password)
 	{
-		if (mAccounts[username] == password)
+		if (get<1>(mAccounts[username]) == password)
 		{
 			return true;
 		}
@@ -326,7 +338,7 @@ public:
 		} while (!isValidNewPassword(tempV[0], tempV[1]));
 
 		//Re-associate password
-		mAccounts[mUser.getUsername()] = tempV[0];
+		get<1>(mAccounts[mUser.getUsername()]) = tempV[0];
 
 		//Change info in user
 		mUser.setPassword(tempV[0]);
@@ -525,7 +537,8 @@ public:
 	{
 		//load accounts
 		int view = 90;
-		//load list of accounts into HT
+		loadAccounts();
+
 		mHistory.push(view);
 		do
 		{
@@ -614,11 +627,65 @@ public:
 				break;
 			}
 		} while (mHistory.top() != 4);
-		//save accounts
+		
+		saveAccounts();
 		
 	}
 	
 	//laod user/passwords
+	void loadAccounts()
+	{
+		ifstream infile{ "Accounts.txt", ios::in };
+
+		if (infile.is_open())
+		{
+			string line = "";
+			queue<string> q{};
+
+			while (infile.good())
+			{
+				getline(infile, line);
+				q = Utility::splitter(line, ' ');
+				if (!q.empty())
+				{
+					string tempName = q.front();
+					q.pop();
+					string tempPass = q.front();
+					decryptUserInfo(tempName, tempPass);
+					tuple<string, string> tempTupe{ tempName, tempPass };
+
+					mAccounts[tempName] = tempTupe;
+				}
+			}
+
+			infile.close();
+		}
+		else
+		{
+			cout << "Error: Could not open accounts file" << endl;
+		}
+	}
+
+	void saveAccounts()
+	{
+		ofstream outfile{"Accounts.txt", ios::out };
+		if (outfile.is_open())
+		{
+			for (auto a : mAccounts)
+			{
+				//encrypt
+				encryptAccountInfo(get<0>(a.second), get<1>(a.second));
+				//print name, password, \n
+				outfile << get<0>(a.second) << " " << get<1>(a.second)<< " " << endl;
+			}
+
+			outfile.close();
+		}
+		else
+		{
+			cout << "Error: Could not open accounts file" << endl;
+		}
+	}
 #pragma endregion
 };
 #endif

@@ -93,6 +93,12 @@
     <ClInclude Include="UI.h" />
     <ClInclude Include="Account.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Accounts.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Micah.csv" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

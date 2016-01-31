@@ -33,7 +33,7 @@ private:
 public:
 #pragma region Big5
 	//constructor
-	Account(string username = "", string password = "", double initialBalance = 0.00)
+	Account(string username = "", string password = "", int initialBalance = 0)
 	{
 		mUsername = username;
 		mPassword = password;
@@ -241,12 +241,19 @@ public:
 			//initialbalance (set at setup)
 			outfile << mInitialBalance << endl;
 			//yearstart,yearend
-			outfile << mYearStart.getDay() << "," + mYearStart.getMonth() << ","
-				<< mYearEnd.getDay() << "," + mYearEnd.getMonth() <<","<< endl;
+			outfile << mYearStart.getDay() << "," << mYearStart.getMonth() << ","
+				<< mYearEnd.getDay() << "," << mYearEnd.getMonth() <<","<< endl;
 			//donors: mName,mAddress,mEmail,mPhoneNumber,etc
-			for (auto i : mDonors)
+			if (!mDonors.empty())
 			{
-				outfile << i.second.getName() << "," << i.second.getAddress() << "," << i.second.getEmail() << "," << i.second.getPhoneNumber() << ",";
+				for (auto i : mDonors)
+				{
+					outfile << i.second.getName() << "," << i.second.getAddress() << "," << i.second.getEmail() << "," << i.second.getPhoneNumber() << ",";
+				}
+			}
+			else
+			{
+				outfile << "," << "," << "," << ",";
 			}
 			outfile << endl;
 			//itterate through cycles
@@ -258,17 +265,13 @@ public:
 				{
 					for (auto f : k.second)
 					{
-						Date tempD = f.getDate();
-						outfile << f.getCycle() << "," << tempD.getYear() << "," << tempD.getDay() << "," << tempD.getMonth() << ","
-							<< f.getCategory() << "," << f.getName() << "," << f.getAmount() << ",";
-						if (f.getCategory() == "Donation")
+						Date tempD = f->getDate();
+						outfile << f->getCycle() << "," << tempD.getYear() << "," << tempD.getDay() << "," << tempD.getMonth() << ","
+							<< f->getCategory() << "," << f->getName() << "," << f->getAmount() << ",";
+						if (f->getCategory() != "Donation")
 						{
-							outfile << "," << "," << endl;
-						}
-						else
-						{
-							Transaction *tempT = new Transaction(f);
-							outfile << static_cast<Expense*>(tempT)->getStore() << "," << static_cast<Expense*>(tempT)->getNumItems() << "," << endl;
+							//Transaction *tempT = new Transaction(f);
+							outfile << static_cast<Expense*>(f)->getStore() << "," << static_cast<Expense*>(f)->getNumItems() << "," << endl;
 						}
 					}
 				}
@@ -280,8 +283,10 @@ public:
 
 	}
 	//load
-	void load()
+	void load(string username, string password)
 	{
+		mUsername = username;
+		mPassword = password;
 		string filename = mUsername + ".csv";
 		ifstream infile{ filename, ios::in };
 		
@@ -292,7 +297,8 @@ public:
 			string tempString = "";
 
 			//read first line: initial balance
-			infile >> tempAmount;
+			getline(infile, tempString);
+			tempAmount = stoi(tempString);
 			mInitialBalance = tempAmount;
 			mBalance = tempAmount;
 			//read second line: startyear endyear
@@ -314,7 +320,7 @@ public:
 				mYearEnd.setMonth(stoi(tempString));
 
 			}
-			//read third line: name address email phone
+			//read third line list of donors: name address email phone
 			getline(infile, tempString);
 			tempQ = Utility::splitter(tempString, ',');
 			while (!tempQ.empty())
@@ -345,6 +351,7 @@ public:
 						Donation newDonation{};
 						
 						newDonation.setCycle(stoi(tempQ.front()));
+						tempQ.pop();
 
 						tempD.setYear(stoi(tempQ.front()));
 						tempQ.pop();
@@ -369,6 +376,7 @@ public:
 						Expense newExpense{};
 
 						newExpense.setCycle(stoi(tempQ.front()));
+						tempQ.pop();
 
 						tempD.setYear(stoi(tempQ.front()));
 						tempQ.pop();
@@ -384,7 +392,7 @@ public:
 						newExpense.setName(tempQ.front());
 						tempQ.pop();
 
-						newExpense.setAmount(stod(tempQ.front()));
+						newExpense.setAmount(stoi(tempQ.front()));
 						tempQ.pop();
 
 						newExpense.setStore(tempQ.front());

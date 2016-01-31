@@ -14,7 +14,7 @@ using std::vector;
 class Report
 {
 private:
-	unordered_map<string, vector<Transaction>> mReport; // key: category vaule: vector of Transactions
+	unordered_map<string, vector<Transaction*>> mReport; // key: category vaule: vector of Transactions
 	int mStartBalance;
 	int mEndBalance;
 	Date mStartDate;
@@ -93,7 +93,7 @@ public:
 	}
 #pragma endregion
 #pragma region Setters Getters
-	void setReport(unordered_map<string, vector<Transaction>> report)
+	void setReport(unordered_map<string, vector<Transaction*>> report)
 	{
 		mReport = report;
 	}
@@ -117,7 +117,7 @@ public:
 	{
 		mId = id;
 	}
-	unordered_map<string, vector<Transaction>> getReport()
+	unordered_map<string, vector<Transaction*>> getReport()
 	{
 		return mReport;
 	}
@@ -158,7 +158,7 @@ public:
 		{
 			mEndDate = date;
 		}
-		mReport[category].push_back(Donation{cycle, category, name, date.getMonth(), date.getDay(), date.getYear(), amount });
+		mReport[category].push_back(new Donation{cycle, category, name, date.getMonth(), date.getDay(), date.getYear(), amount });
 		mEndBalance += amount;
 	}
 	//add expense
@@ -168,7 +168,7 @@ public:
 		{
 			mEndDate = date;
 		}
-		mReport[category].push_back(Expense{cycle, category, store, numItems, name, date.getMonth(), date.getDay(), date.getYear(), amount });
+		mReport[category].push_back(new Expense{cycle, category, store, numItems, name, date.getMonth(), date.getDay(), date.getYear(), amount });
 		mEndBalance += amount;
 	}
 	//remove donation

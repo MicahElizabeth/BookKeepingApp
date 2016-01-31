@@ -17,6 +17,7 @@ public:
 	//constructor
 	Transaction(int cycle = 0, string category = "", string name = "", int month = 0, int day = 0, int year =  0, int amount = 0)
 	{
+		mCycle = cycle;
 		mCategory = category;
 		mName = name;
 		mDate.setMonth(month);
