@@ -81,6 +81,26 @@ public:
 		
 		mBook[cycle].addDonation(cycle, name, date, category, amount);
 	}
+
+	bool removeExpense(int cycle, string category, Date date, string name, int amount)
+	{
+		if (mBook[cycle].removeExpense(category, date, name, amount))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+
+	bool removeDonation(int cycle, Date date, string name, int amount)
+	{
+		if (mBook[cycle].removeDonation(date, name, amount))
+		{
+			return true;
+		}
+
+		return false;
+	}
 #pragma endregion
 };
 #endif

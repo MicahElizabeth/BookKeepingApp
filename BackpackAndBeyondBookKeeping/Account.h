@@ -37,7 +37,7 @@ public:
 	{
 		mUsername = username;
 		mPassword = password;
-		mBalance = 0.00;
+		mBalance = 0;
 		mInitialBalance = initialBalance;
 	}
 	//desetructer
@@ -231,6 +231,41 @@ public:
 		mBook.addExpense(expense.getCycle(), expense.getName(), date, expense.getCategory(), expense.getAmount(), expense.getStore(), expense.getNumItems());
 		mBalance += expense.getAmount();
 	}
+
+	void removeExpense(int cycle, string category, Date date, string name, int amount)
+	{
+		if (mBook.removeExpense(cycle, category, date, name, amount))
+		{
+			mBalance -= amount; //amount will be negative, so it will actually add to the balance
+		}
+	}
+
+	void removeDonation(int cycle, Date date, string name, int amount)
+	{
+		unordered_map<int, vector<Donation>> temp = mDonors[name].getDonations();
+		if (temp.size() == 1)
+		{
+			vector<Donation> vect = temp[date.getYear()];
+
+			//there is only one entry in the donor's records and the record is meant to be deleted
+			if (vect.size() == 1 && vect[0].getDate() == date && vect[0].getAmount() == amount)
+			{
+				//delete the donor
+				// this causes printing problems ==>
+				mDonors.erase(name);
+
+				if (mBook.removeDonation(cycle, date, name, amount))
+				{
+					mBalance -= amount;
+				}
+			}
+		}
+		else if (mBook.removeDonation(cycle, date, name, amount) && mDonors[name].removeDonation(date, amount))
+		{
+			mBalance -= amount;
+		}
+	}
+
 	//save
 	void save()
 	{
@@ -271,8 +306,9 @@ public:
 						if (f->getCategory() != "Donation")
 						{
 							//Transaction *tempT = new Transaction(f);
-							outfile << static_cast<Expense*>(f)->getStore() << "," << static_cast<Expense*>(f)->getNumItems() << "," << endl;
+							outfile << static_cast<Expense*>(f)->getStore() << "," << static_cast<Expense*>(f)->getNumItems() << ",";
 						}
+						outfile << endl;
 					}
 				}
 			}
@@ -282,11 +318,12 @@ public:
 		}
 
 	}
+
+	
+
 	//load
-	void load(string username, string password)
+	void load()
 	{
-		mUsername = username;
-		mPassword = password;
 		string filename = mUsername + ".csv";
 		ifstream infile{ filename, ios::in };
 		
@@ -295,7 +332,7 @@ public:
 			int tempAmount = 0;
 			int tempInt = 0;
 			string tempString = "";
-
+			string tempName = "";
 			//read first line: initial balance
 			getline(infile, tempString);
 			tempAmount = stoi(tempString);
@@ -325,18 +362,18 @@ public:
 			tempQ = Utility::splitter(tempString, ',');
 			while (!tempQ.empty())
 			{
+				tempName = tempQ.front();
+				tempQ.pop();
+				mDonors[tempName].setName(tempName);
 				tempString = tempQ.front();
 				tempQ.pop();
-				mDonors[tempString].setName(tempString);
+				mDonors[tempName].setAddress(tempString);
 				tempString = tempQ.front();
 				tempQ.pop();
-				mDonors[tempString].setAddress(tempString);
+				mDonors[tempName].setEmail(tempString);
 				tempString = tempQ.front();
 				tempQ.pop();
-				mDonors[tempString].setEmail(tempString);
-				tempString = tempQ.front();
-				tempQ.pop();
-				mDonors[tempString].setPhoneNumber(tempString);
+				mDonors[tempName].setPhoneNumber(tempString);
 			}
 			//read all other lines: cycle year day month category name amount store numItems
 			Date tempD{};

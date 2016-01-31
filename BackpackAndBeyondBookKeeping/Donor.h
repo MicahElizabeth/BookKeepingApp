@@ -139,6 +139,21 @@ public:
 		mDonations[donation.getDate().getYear()].push_back(donation);
 		mTotal += donation.getAmount();
 	}
-	//revove(date, amount)
+
+	//remove(date, amount)
+	bool removeDonation(Date date,int amount)
+	{
+		int year = date.getYear();
+		for (int i = 0; i < mDonations[year].size(); i++)
+		{
+			if (mDonations[year][i].getDate() == date && mDonations[year][i].getAmount() == amount)
+			{
+				mDonations[year].erase(mDonations[year].begin()+i);
+				return true;
+			}
+		}
+
+		return false;
+	}
 };
 #endif

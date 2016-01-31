@@ -172,7 +172,33 @@ public:
 		mEndBalance += amount;
 	}
 	//remove donation
+	bool removeDonation(Date date, string name, int amount)
+	{
+		for (int i = 0; i < mReport["Donation"].size(); i++)
+		{
+			if (mReport["Donation"][i]->getDate() == date && mReport["Donation"][i]->getName() == name && mReport["Donation"][i]->getAmount() == amount)
+			{
+				mReport["Donation"].erase(mReport["Donation"].begin() + i);
+				return true;
+			}
+		}
+
+		return false;
+	}
 	//remove expense
+	bool removeExpense(string category,Date date,string name,int amount)
+	{
+		for (int i = 0; i < mReport[category].size(); i++)
+		{
+			if (mReport[category][i]->getDate() == date && mReport[category][i]->getName() == name && mReport[category][i]->getAmount() == amount)
+			{
+				mReport[category].erase(mReport[category].begin()+i);
+				return true;
+			}
+		}
+
+		return false;
+	}
 #pragma endregion
 };
 #endif

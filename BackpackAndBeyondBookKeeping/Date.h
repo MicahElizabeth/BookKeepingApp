@@ -122,6 +122,18 @@ public:
 			}
 		}
 	}
+
+	bool operator== (Date rhs)
+	{
+		if (mYear == rhs.mYear && mDay == rhs.mDay && mMonth == rhs.mMonth)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 #pragma endregion
 #pragma region Other
 	bool isValid()

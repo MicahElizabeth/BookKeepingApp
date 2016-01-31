@@ -257,7 +257,10 @@ public:
 
 		balance = stoi(q.front()) * 100;
 		q.pop();
-		balance += stoi(q.front());
+		if (!q.empty())
+		{
+			balance += stoi(q.front());
+		}
 
 		return balance;
 	}
@@ -314,8 +317,8 @@ public:
 			cout << "WARNING!!!" << endl
 				<< "You are about to change your initial account balance." << endl
 				<< "Account balances are adjusted automatically." << endl
-				<< "Unless you are setting up your account for the first time, it is not recomended to \nchange your account balance." << endl
-				<< "Because of this, you will have to approve the change with your password before continuing." << endl
+				<< "Unless you are setting up your account for the first time, it is not recomended to change your account balance." << endl
+				<< "Because of this, you will have to approve the change with your password before \ncontinuing." << endl
 				<< "1. Continue to change balance" << endl
 				<< "2. Back" << endl;
 			fflush(stdin);

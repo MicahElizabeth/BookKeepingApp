@@ -1,5 +1,5 @@
-/*TODO: print reports, (make date entry more user friendly), remove expense/donation
-Future updates: Add GUI*/
+/*TODO: print reports, remove expense/donation
+Future updates: Add GUI, ability to edit donor info*/
 
 #ifndef APP_H
 #define APP_H
@@ -245,7 +245,8 @@ public:
 				{
 					temp = 0;
 					mLoggedIn = true;
-					mUser.load(temp1, temp2);
+					mUser = *(new Account(temp1, temp2));
+					mUser.load();
 				}
 				else
 				{
@@ -447,13 +448,28 @@ public:
 	void removeExpense()
 	{
 		//get date, cycle, category, name
-
+		int cycle = UI::getCycle();
+		string category = UI::getCategory();
+		Date date = UI::getDate();
+		string name = UI::getName();
+		int amount = UI::getAmount()*-1; //expenses are negative, so it needs to match 
 		//remove from user.book and update user.balance -> remove from user->book[id]->report[category].find(transaction),update endbalance and end Date?
+		mUser.removeExpense(cycle, category, date, name, amount);
+		mHistory.push(-1);
 	}
 	void removeDonation()
 	{
 		//same as removeExpense
+		//get date, cycle, category, name
+		int cycle = UI::getCycle();
+		Date date = UI::getDate();
+		string name = UI::getName();
+		int amount = UI::getAmount();
+		
 		//remove from user.donors[name]->donations[year].remove(transaction), update total
+		mUser.removeDonation(cycle, date, name, amount);
+
+		mHistory.push(-1);
 	}
 	void reports()
 	{
@@ -559,6 +575,9 @@ public:
 					mUser.save();
 					//save
 					mLoggedIn = false;
+					//call the destructor so that if the user logs back in, 
+					//the data is fresh
+					//mUser.~Account();
 				}
 				mHistory.push(UI::homeScreen());
 				break;
