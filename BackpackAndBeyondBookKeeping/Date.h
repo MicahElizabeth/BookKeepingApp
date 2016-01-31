@@ -123,5 +123,24 @@ public:
 		}
 	}
 #pragma endregion
+#pragma region Other
+	bool isValid()
+	{
+		if (mMonth > 12 || mMonth < 1)
+		{
+			return false;
+		}
+		if (mDay > 31 || mDay < 1)
+		{
+			return false;
+		}
+		if (mYear > 9999 || mYear < 1900)
+		{
+			return false;
+		}
+
+		return true;
+	}
+#pragma endregion
 };
 #endif

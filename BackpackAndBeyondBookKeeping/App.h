@@ -1,5 +1,6 @@
-/*TODO: print reports, (save login info), make date entry more user friendly, remove expense/donation
+/*TODO: print reports, (make date entry more user friendly), remove expense/donation
 Future updates: Add GUI*/
+
 #ifndef APP_H
 #define APP_H
 
@@ -416,7 +417,7 @@ public:
 			string name = UI::getName(), category = UI::getCategory(), store = UI::getStore();
 			int amount = UI::getAmount() * (-1); //expenses are negative
 			int numItems = UI::getNumItems(), cycle = UI::getCycle();
-			Date date{ UI::getMonth(), UI::getDay(), UI::getYear() };
+			Date date = UI::getDate();
 
 			mUser.addExpense(cycle, name, date, category, amount, store, numItems);
 			mHistory.push(-1);
@@ -431,7 +432,7 @@ public:
 			string name = UI::getName(), category = "Donation";
 			int amount = UI::getAmount();
 			int cycle = UI::getCycle();
-			Date date{ UI::getMonth(), UI::getDay(), UI::getYear() };
+			Date date = UI::getDate();
 			unordered_map<string, Donor> temp = mUser.getDonors();
 			if (temp.find(name) == temp.end())
 			{

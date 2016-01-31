@@ -102,6 +102,33 @@ public:
 		getline(cin, phone);
 		return phone;
 	}
+	//get date
+	static Date getDate()
+	{
+		Date date{};
+		string temp = "";
+		queue<string> q{};
+		do
+		{
+			cout << "Date (Month-Day-Year): ";
+			fflush(stdin);
+			cin >> temp;
+			temp += "-";
+			q = Utility::splitter(temp, '-');
+			if (q.size() == 3)
+			{
+				date.setMonth(stoi(q.front()));
+				q.pop();
+				date.setDay(stoi(q.front()));
+				q.pop();
+				date.setYear(stoi(q.front()));
+			}
+		
+		} while (!date.isValid());
+
+		return date;
+	}
+
 	//get month
 	static int getMonth()
 	{
@@ -208,7 +235,10 @@ public:
 
 		amount = stoi(q.front()) * 100;
 		q.pop();
-		amount += stoi(q.front());
+		if (!q.empty())
+		{
+			amount += stoi(q.front());
+		}
 
 		return amount;
 	}
