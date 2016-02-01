@@ -435,7 +435,21 @@ public:
 		{
 			cout << "\t\t\t\tHelp" << endl
 				<< endl
-				<< "PLACE INSTRUCTIONS HERE" << endl////////////////////////////////////////////////////////////
+				<< "NOTE: This product is a prototype. Please Keep additional records for at least \n"
+				<< "the first year to ensure accuracy." << endl <<endl
+				<< "To save your changes, you must log out of the account from your homescreen.\n"<<endl
+				<< "To allow you flexibility in the year start and end dates, this program uses \n"
+				<< "financial cycles to keep your data organized. Be sure to keep track of what \n"
+				<< "cycle you are on. But don't worry too much, if you make a mistake, you can \n"
+				<< "always remove the entry and enter it correctly." << endl <<endl
+				<< "Make sure to enter data as instructed and DO NOT enter any commas (,) into your\n"
+				<< "responses." << endl <<endl
+				<< "To Remove data, you must match the cycle number, date, name, and amount. All \n"
+				<< "this information can be found in the detailed records."<<endl <<endl
+				<< "To view your data, go to the file that this app is in and select the report you\n"
+				<< "wish to view. It will open in Microsoft Excel and you can rearrage the data as \n"
+				<< "you see fit. You will see a document called Accounts and one labled with only \n"
+				<< "your username. It is best not to open these files and DO NOT delete them." <<endl <<endl
 				<< "(1)Back (2)MyHomePage (3)Logout And Save" << endl;
 			fflush(stdin);
 			cin >> temp;
@@ -448,7 +462,7 @@ public:
 		}
 		else if (choice == 3)
 		{
-			return 70;
+			return 90;
 		}
 		else
 		{
