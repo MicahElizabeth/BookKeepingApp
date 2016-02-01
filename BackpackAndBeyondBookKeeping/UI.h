@@ -110,7 +110,7 @@ public:
 		queue<string> q{};
 		do
 		{
-			cout << "Date (Month-Day-Year): ";
+			cout << "Date (MM-DD-YYYY): ";
 			fflush(stdin);
 			cin >> temp;
 			temp += "-";
@@ -132,12 +132,14 @@ public:
 	//get month
 	static int getMonth()
 	{
-		int month{};
+		int month=0;
+		string temp = "";
 		do
 		{
 			cout << "Month (1-12): ";
 			fflush(stdin);
-			cin >> month;
+			cin >> temp;
+			month = stoi(temp);
 
 		} while (month > 12 || month < 1);
 		return month;
@@ -146,12 +148,14 @@ public:
 	//get day
 	static int getDay()
 	{
-		int day{};
+		int day=0;
+		string temp = "";
 		do
 		{
 			cout << "Day (1-31): ";
 			fflush(stdin);
-			cin >> day;
+			cin >> temp;
+			day = stoi(temp);
 
 		} while (day > 31 || day < 1);
 		return day;
@@ -160,12 +164,14 @@ public:
 	//get year
 	static int getYear()
 	{
-		int year{};
+		int year = 0;
+		string temp = "";
 		do
 		{
 			cout << "Year: ";
 			fflush(stdin);
-			cin >> year;
+			cin >> temp;
+			year = stoi(temp);
 
 		} while (year < 1900 || year > 9999);
 
@@ -202,22 +208,26 @@ public:
 	//get cycle
 	static int getCycle()
 	{
-		int cycle = 0.00;
+		int cycle = 0;
+		string temp = "";
 
 		cout << "Financial Cycle Number: ";
 		fflush(stdin);
-		cin >> cycle;
+		cin >> temp;
+		cycle = stoi(temp);
 
 		return cycle;
 	}
 	//get num items
 	static int getNumItems()
 	{
-		int numItems = 0.00;
+		int numItems = 0;
+		string temp = "";
 
 		cout << "Number of Items: ";
 		fflush(stdin);
-		cin >> numItems;
+		cin >> temp;
+		numItems = stoi(temp);
 
 		return numItems;
 	}
@@ -268,6 +278,7 @@ public:
 	static int putLoginError()
 	{
 		int choice = -1;
+		string temp = "";
 		do
 		{
 			cout << "Incorrect username and/or password" << endl
@@ -275,7 +286,8 @@ public:
 				<< "1. Try again?" << endl
 				<< "2. Back to Home" << endl;
 			fflush(stdin);
-			cin >> choice;
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice > 2 || choice < 1);
 		return choice;
 	}
@@ -283,6 +295,7 @@ public:
 	static int putNewUserError()
 	{
 		int choice = -1;
+		string temp = "";
 		do
 		{
 			cout << "Invalid Username" << endl
@@ -290,7 +303,8 @@ public:
 				<< "1. Try again?" << endl
 				<< "2. Back to Home" << endl;
 			fflush(stdin);
-			cin >> choice;
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice > 2 || choice < 1);
 		return choice;
 	}
@@ -298,6 +312,7 @@ public:
 	static int putNewPasswordError()
 	{
 		int choice = -1;
+		string temp = "";
 		do
 		{
 			cout << "Invalid password or passwords do not match" << endl
@@ -305,13 +320,15 @@ public:
 				<< "1. Try again?" << endl
 				<< "2. Back to Home" << endl;
 			fflush(stdin);
-			cin >> choice;
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice > 2 || choice < 1);
 		return choice;
 	}
 	static int balanceChangeWarning()
 	{
 		int choice = -1;
+		string temp = "";
 		do
 		{
 			cout << "WARNING!!!" << endl
@@ -322,7 +339,8 @@ public:
 				<< "1. Continue to change balance" << endl
 				<< "2. Back" << endl;
 			fflush(stdin);
-			cin >> choice;
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice > 2 || choice < 1);
 
 		return choice;
@@ -330,12 +348,15 @@ public:
 	static bool isAllCycles()
 	{
 		int choice = -1;
+		string temp = "";
 		do
 		{
 			cout << "Choose one" << endl
 				<< "1. All Cycles" << endl
 				<< "2. One Cycle" << endl;
-			cin >> choice;
+			fflush(stdin);
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice > 2 || choice < 1);
 		if (choice == 1)
 		{
@@ -349,12 +370,15 @@ public:
 	static bool isAllDonors()
 	{
 		int choice = -1;
+		string temp = "";
 		do
 		{
 			cout << "Choose one" << endl
 				<< "1. All Donors" << endl
 				<< "2. One Donor" << endl;
-			cin >> choice;
+			fflush(stdin);
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice > 2 || choice < 1);
 		if (choice == 1)
 		{
@@ -379,6 +403,7 @@ public:
 	{
 		system("cls");
 		int choice = -1;
+		string temp = "";
 		do
 		{
 
@@ -390,7 +415,8 @@ public:
 				<< "3. Help" << endl
 				<< "4. Exit" << endl;
 			fflush(stdin);
-			cin >> choice;
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice > 4 || choice < 1);
 
 		
@@ -404,6 +430,7 @@ public:
 	{
 		system("cls");
 		int choice = -1;
+		string temp = "";
 		do
 		{
 			cout << "\t\t\t\tHelp" << endl
@@ -411,7 +438,8 @@ public:
 				<< "PLACE INSTRUCTIONS HERE" << endl////////////////////////////////////////////////////////////
 				<< "(1)Back (2)MyHomePage (3)Logout And Save" << endl;
 			fflush(stdin);
-			cin >> choice;
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice > 3 || choice < 1);
 
 		if (choice == 2)
@@ -433,6 +461,7 @@ public:
 	{
 		system("cls");
 		int choice = -1;
+		string temp;
 		do
 		{
 			cout << "\t\t\t\tLog In" << endl
@@ -441,7 +470,8 @@ public:
 				<< "2. Back" << endl
 				<< "3. Help" << endl;
 			fflush(stdin);
-			cin >> choice;
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice >3 || choice < 1);
 
 		if (choice == 1)
@@ -462,6 +492,7 @@ public:
 	{
 		system("cls");
 		int choice = -1;
+		string temp = "";
 		do
 		{
 			cout << "\t\t\t\tCreate Account" << endl
@@ -475,7 +506,8 @@ public:
 				<< "3. Help" << endl
 				<< "4. Home" << endl;
 			fflush(stdin);
-			cin >> choice;
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice >4 || choice < 1);
 
 		if (choice == 1)
@@ -503,6 +535,7 @@ public:
 	{
 		system("cls");
 		int choice = 0;
+		string temp = "";
 		do
 		{
 			cout << "\t\t\t\t" << username
@@ -517,7 +550,8 @@ public:
 				<< "8. Help" << endl
 				<< "9. Log out and Save" << endl;
 			fflush(stdin);
-			cin >> choice;
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice > 9 || choice < 1);
 
 		if (choice == 8)
@@ -536,6 +570,7 @@ public:
 	{
 		system("cls");
 		int choice = -1;
+		string temp = "";
 		do
 		{
 			cout << "\t\t\t\tNew Expense" << endl
@@ -544,7 +579,8 @@ public:
 				<< "2. Back" << endl
 				<< "3. Help" << endl;
 			fflush(stdin);
-			cin >> choice;
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice >3 || choice < 1);
 
 		if (choice == 1)
@@ -565,6 +601,7 @@ public:
 	{
 		system("cls");
 		int choice = -1;
+		string temp = "";
 		do
 		{
 			cout << "\t\t\t\tNew Donation" << endl
@@ -573,7 +610,8 @@ public:
 				<< "2. Back" << endl
 				<< "3. Help" << endl;
 			fflush(stdin);
-			cin >> choice;
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice >3 || choice < 1);
 
 		if (choice == 1)
@@ -596,7 +634,7 @@ public:
 		int choice = -1;
 		int initialBalance = info.getInitialBalance();
 		int balance = info.getBalance();
-
+		string temp = "";
 		do
 		{
 			cout << "\t\t\t\tAccount Info" << endl
@@ -612,7 +650,8 @@ public:
 				<< "2. Back" << endl
 				<< "3. Help" << endl;
 			fflush(stdin);
-			cin >> choice;
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice >3 || choice < 1);
 
 		if (choice == 1)
@@ -633,6 +672,7 @@ public:
 	{
 		system("cls");
 		int choice = -1;
+		string temp = "";
 		do
 		{
 			cout << "\t\t\t\tEdit Info" << endl
@@ -641,7 +681,8 @@ public:
 				<< "2. Back" << endl
 				<< "3. Help" << endl;
 			fflush(stdin);
-			cin >> choice;
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice >3 || choice < 1);
 
 		if (choice == 1)
@@ -661,6 +702,7 @@ public:
 	static int editInfoChoose()
 	{
 		int choice = -1;
+		string temp = "";
 		do
 		{
 			cout << "What would you like to edit?" << endl
@@ -673,16 +715,19 @@ public:
 				<< "6. All" << endl
 				<< "7. Home" << endl;
 			fflush(stdin);
-			cin >> choice;
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice > 7 || choice < 1);
 
 		return choice;
 	}
-	//Select Reports screen --> select report, remove donation or remove expense
+	//Select Reports[6] screen --> select report, remove donation or remove expense
 	//***NOTE: For now, all reports will be sent to csv type files not to the screen
 	static int reportsChooseView()
 	{
+		system("cls");
 		int choice = -1;
+		string temp = "";
 		do
 		{
 			cout << "\t\t\t\tReports" << endl
@@ -693,7 +738,9 @@ public:
 				<< "3. Donation Recipts" << endl
 				<< "4. All Types" << endl
 				<< "5. Done" << endl;
-			cin >> choice;
+			fflush(stdin);
+			cin >> temp;
+			choice = stoi(temp);
 		} while (choice > 5 || choice < 1);
 		
 		if (choice == 5)
