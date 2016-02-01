@@ -8,7 +8,7 @@ class Book
 private:
 	//year needs to be a range somehow. use id where between date and date = id etc
 	unordered_map<int, Report> mBook; // key:id value:detailed report for the year
-	vector<int> mYears; //actually ids
+	//vector<int> mYears; //actually ids
 public:
 #pragma region Big5
 	//constructor
@@ -24,7 +24,7 @@ public:
 		if (this != &other)
 		{
 			mBook = other.mBook;
-			mYears = other.mYears;
+			//mYears = other.mYears;
 		}
 	}
 	//copy operator
@@ -33,7 +33,7 @@ public:
 		if (this != &rhs)
 		{
 			mBook = rhs.mBook;
-			mYears = rhs.mYears;
+			//mYears = rhs.mYears;
 		}
 		return *this;
 	}
@@ -41,13 +41,13 @@ public:
 	Book(Book &&other)
 	{
 		mBook = other.mBook;
-		mYears = other.mYears;
+		//mYears = other.mYears;
 	}
 	//move operator
 	Book & operator= (Book &&rhs)
 	{
 		mBook = rhs.mBook;
-		mYears = rhs.mYears;
+		//mYears = rhs.mYears;
 	
 		return *this;
 	}
@@ -57,18 +57,18 @@ public:
 	{
 		mBook = book;
 	}
-	void setYears(vector<int> years)
+	/*void setYears(vector<int> years)
 	{
 		mYears = years;
-	}
+	}*/
 	unordered_map<int, Report> getBook()
 	{
 		return mBook;
 	}
-	vector<int> getYears()
+	/*vector<int> getYears()
 	{
 		return mYears;
-	}
+	}*/
 #pragma endregion
 #pragma region Edits
 	void addExpense(int cycle, string name, Date date, string category, int amount, string store, int numItems)

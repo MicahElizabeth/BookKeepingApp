@@ -9,6 +9,8 @@
 #include <queue>
 using std::unordered_map;
 using std::vector;
+using std::tuple;
+using std::get;
 
 //report file names will be 'username''type''date-date'
 class Report
@@ -161,7 +163,7 @@ public:
 
 	int getTotalDonations()
 	{
-		int total;
+		int total=0;
 		for (auto i : mReport["Donation"])
 		{
 			total += i->getAmount();
@@ -169,7 +171,7 @@ public:
 		return total;
 	}
 
-	vector<tuple<string, int, int> > getMonthTotals()
+	vector<tuple<string, int, int>> getMonthTotals()
 	{
 		vector<tuple<string, int, int> > result{};
 		unordered_map < int, tuple<int, int>> temp{};
@@ -205,6 +207,8 @@ public:
 		result.push_back(tuple<string, int, int>{"October", get<0>(temp[10]), get<1>(temp[10])});
 		result.push_back(tuple<string, int, int>{"November", get<0>(temp[11]), get<1>(temp[11])});
 		result.push_back(tuple<string, int, int>{"December", get<0>(temp[12]), get<1>(temp[12])});
+
+		return result;
 	}
 
 	vector<tuple<string, int>> getCategoryTotals()

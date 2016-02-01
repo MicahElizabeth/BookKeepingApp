@@ -17,6 +17,7 @@ using std::ios;
 using std::endl;
 using std::getline;
 using std::queue;
+//using std::find;
 
 class Account
 {
@@ -29,6 +30,8 @@ private:
 	unordered_map<string, Donor> mDonors; //key:name value:Donor
 	Date mYearStart;
 	Date mYearEnd;
+	vector<int> mCycles;
+	vector<int> mYears;
 
 public:
 #pragma region Big5
@@ -39,6 +42,7 @@ public:
 		mPassword = password;
 		mBalance = 0;
 		mInitialBalance = initialBalance;
+		
 	}
 	//desetructer
 	~Account(){}
@@ -55,6 +59,8 @@ public:
 			mYearStart = other.mYearStart;
 			mYearEnd = other.mYearEnd;
 			mInitialBalance = other.mInitialBalance;
+			mCycles = other.mCycles;
+			mYears = other.mYears;
 		}
 	}
 	//copy operator
@@ -70,6 +76,8 @@ public:
 			mYearStart = rhs.mYearStart;
 			mYearEnd = rhs.mYearEnd;
 			mInitialBalance = rhs.mInitialBalance;
+			mCycles = rhs.mCycles;
+			mYears = rhs.mYears;
 		}
 		return *this;
 	}
@@ -84,6 +92,8 @@ public:
 		mYearStart = other.mYearStart;
 		mYearEnd = other.mYearEnd;
 		mInitialBalance = other.mInitialBalance;
+		mCycles = other.mCycles;
+		mYears = other.mYears;
 	}
 	//move operator 
 	Account & operator= (Account &&rhs)
@@ -96,6 +106,8 @@ public:
 		mYearStart = rhs.mYearStart;
 		mYearEnd = rhs.mYearEnd;
 		mInitialBalance = rhs.mInitialBalance;
+		mCycles = rhs.mCycles;
+		mYears = rhs.mYears;
 
 		return *this;
 	}
@@ -133,6 +145,14 @@ public:
 	{
 		mInitialBalance = balance;
 	}
+	void setCycles(vector<int> cycles)
+	{
+		mCycles = cycles;
+	}
+	void setYears(vector<int> years)
+	{
+		mYears = years;
+	}
 	string getUsername()
 	{
 		return mUsername;
@@ -165,6 +185,14 @@ public:
 	{
 		return mInitialBalance;
 	}
+	vector<int> getCycles()
+	{
+		return mCycles;
+	}
+	vector<int> getYears()
+	{
+		return mYears;
+	}
 #pragma endregion
 #pragma region Edits
 	//add donation
@@ -173,10 +201,15 @@ public:
 		unordered_map<int, Report> temp = mBook.getBook();
 		if (temp.find(cycle) == temp.end())
 		{
+			mCycles.push_back(cycle);
 			//creat new report
 			temp[cycle] = Report{ mBalance, mBalance, mYearStart.getDay(), mYearStart.getDay(), date.getYear(),
 				mYearEnd.getMonth(), mYearEnd.getDay(), date.getYear(), cycle };
 			mBook.setBook(temp);
+		}
+		if (find(mYears.begin(), mYears.end(), date.getYear()) == mYears.end())
+		{
+			mYears.push_back(date.getYear());
 		}
 		mBook.addDonation(cycle, name, date, category, amount);
 		
@@ -184,17 +217,22 @@ public:
 		
 		mBalance += amount;
 	}
+
 	void addDonation(Donation donation)
 	{
 		unordered_map<int, Report> temp = mBook.getBook();
 		Date date = donation.getDate();
 		if (temp.find(donation.getCycle()) == temp.end())
 		{
-			
+			mCycles.push_back(donation.getCycle());
 			//creat new report
 			temp[donation.getCycle()] = Report{ mBalance, mBalance, mYearStart.getDay(), mYearStart.getDay(), date.getYear(),
 				mYearEnd.getMonth(), mYearEnd.getDay(), date.getYear(), donation.getCycle() };
 			mBook.setBook(temp);
+		}
+		if (find(mYears.begin(), mYears.end(), date.getYear()) == mYears.end())
+		{
+			mYears.push_back(date.getYear());
 		}
 		mBook.addDonation(donation.getCycle(), donation.getName(), donation.getDate(), donation.getCategory(), donation.getAmount());
 
@@ -209,10 +247,15 @@ public:
 		unordered_map<int, Report> temp = mBook.getBook();
 		if (temp.find(cycle) == temp.end())
 		{
+			mCycles.push_back(cycle);
 			//creat new report
 			temp[cycle] = Report{ mBalance, mBalance, mYearStart.getDay(), mYearStart.getDay(), date.getYear(), 
 				mYearEnd.getMonth(), mYearEnd.getDay(), date.getYear(), cycle };
 			mBook.setBook(temp);
+		}
+		if (find(mYears.begin(), mYears.end(), date.getYear()) == mYears.end())
+		{
+			mYears.push_back(date.getYear());
 		}
 		mBook.addExpense(cycle, name, date, category, amount, store, numItems);
 		mBalance += amount;
@@ -223,10 +266,15 @@ public:
 		Date date = expense.getDate();
 		if (temp.find(expense.getCycle()) == temp.end())
 		{
+			mCycles.push_back(expense.getCycle());
 			//creat new report
 			temp[expense.getCycle()] = Report{ mBalance, mBalance, mYearStart.getDay(), mYearStart.getDay(), date.getYear(),
 				mYearEnd.getMonth(), mYearEnd.getDay(), date.getYear(), expense.getCycle() };
 			mBook.setBook(temp);
+		}
+		if (find(mYears.begin(), mYears.end(), date.getYear()) == mYears.end())
+		{
+			mYears.push_back(date.getYear());
 		}
 		mBook.addExpense(expense.getCycle(), expense.getName(), date, expense.getCategory(), expense.getAmount(), expense.getStore(), expense.getNumItems());
 		mBalance += expense.getAmount();

@@ -1,4 +1,4 @@
-/*TODO: print reports, help page
+/*TODO: (print reports), help page
 Future updates: Add GUI, ability to edit donor info*/
 
 #ifndef APP_H
@@ -483,60 +483,100 @@ public:
 				case 1:
 					if (UI::isAllCycles())
 					{
-						//Writer::DetailedReport(-1, mUser.getBook());
+						for (auto i : mUser.getCycles())
+						{
+							Writer::DetailedReport(i, mUser.getBook(), mUser.getUsername());
+						}
 					}
 					else
 					{
-						//Writer::DetailedReport(UI::getCycle(), mUser.getBook());
+						Writer::DetailedReport(UI::getCycle(), mUser.getBook(), mUser.getUsername());
 					}
+					
 					break;
 				case 2:
 					if (UI::isAllCycles())
 					{
-						//mUser.summaryReport(-1);
+						for (auto i : mUser.getCycles())
+						{
+							Writer::SummaryReport(i, mUser.getBook(), mUser.getUsername());
+						}
 					}
 					else
 					{
-						//mUser.summarydReport(UI::getCycle());
+						Writer::SummaryReport(UI::getCycle(), mUser.getBook(), mUser.getUsername());
 					}
+					
 					break;
 				case 3:
 					if (UI::isAllDonors())
 					{
 						if (UI::isAllCycles())
 						{
-							//mUser.donorReports(-1);
+							for (auto y : mUser.getYears())
+							{
+
+								Writer::DonorReport(y, mUser.getDonors(), mUser.getUsername());
+								for (auto n : mUser.getDonors())
+								{
+									Writer::DonorReceipt(n.first, y, mUser.getDonors());
+								}
+							}
 						}
 						else
 						{
-							//mUser.donorReports(UI::getCycle());
+							for (auto n : mUser.getDonors())
+							{
+								Writer::DonorReceipt(n.first, UI::getYear(), mUser.getDonors());
+							}
 						}
 					}
 					else
 					{
 						if (UI::isAllCycles())
 						{
-							//mUser.donorReports(UI::getName(), -1);
+							for (auto y : mUser.getYears())
+							{
+								Writer::DonorReceipt(UI::getName(), y, mUser.getDonors());
+							}
 						}
 						else
 						{
-							//mUser.donorReports(UI::getName(), UI::getCycle());
+							Writer::DonorReceipt(UI::getName(), UI::getYear(), mUser.getDonors());
 						}
 					}
 					break;
 				case 4:
 					if (UI::isAllCycles())
 					{
-						/*mUser.detailedReport(-1);
-						mUser.summaryReport(-1);
-						mUser.donorReports(-1);*/
+						for (auto i : mUser.getCycles())
+						{
+							Writer::DetailedReport(i, mUser.getBook(), mUser.getUsername());
+							Writer::SummaryReport(i, mUser.getBook(), mUser.getUsername());
+						}
+						for (auto y : mUser.getYears())
+						{
+
+							Writer::DonorReport(y, mUser.getDonors(), mUser.getUsername());
+							for (auto n : mUser.getDonors())
+							{
+								Writer::DonorReceipt(n.first, y, mUser.getDonors());
+							}
+						}
+						
 					}
 					else
 					{
 						int cycle = UI::getCycle();
-						/*mUser.detailedReport(cycle);
-						mUser.summaryReport(cycle);
-						mUser.donorReports(cycle);*/
+						Writer::DetailedReport(cycle, mUser.getBook(), mUser.getUsername());
+						Writer::SummaryReport(cycle, mUser.getBook(), mUser.getUsername());
+						int year = UI::getYear();
+						Writer::DonorReport(year, mUser.getDonors(), mUser.getUsername());
+						for (auto n : mUser.getDonors())
+						{
+							Writer::DonorReceipt(n.first, year, mUser.getDonors());
+						}
+						
 					}
 					break;
 				default: mHistory.push(-1);
@@ -545,7 +585,6 @@ public:
 				mHistory.pop();
 			}
 		} while (mHistory.top() != 6);
-		mHistory.pop();
 	}
 #pragma endregion
 #pragma region Running stuff
@@ -637,6 +676,7 @@ public:
 				break;
 			case 70: //REPORTS
 				reports();
+				break;
 			case 50: //REMOVE EXPENSE
 				removeExpense();
 				break;
