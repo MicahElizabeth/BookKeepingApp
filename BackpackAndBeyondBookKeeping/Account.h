@@ -1,3 +1,9 @@
+/*******************************************************************
+* Programmer: Micah Jenkins                                        *
+* Date Created: October 9 2015                                     *
+* Date Last modified: February 16 2016                             *
+********************************************************************/ 
+
 #ifndef ACCOUNT_H
 #define ACCOUNT_H
 
@@ -19,6 +25,7 @@ using std::getline;
 using std::queue;
 //using std::find;
 
+//This class manages all the user's information
 class Account
 {
 private:
@@ -195,7 +202,12 @@ public:
 	}
 #pragma endregion
 #pragma region Edits
-	//add donation
+
+	//addDonation takes in the cycle, name of the donor, 
+	//date of the donation, category (which should be donation),
+	//and the amount of the donation. It finds the correct place to
+	// insert it into the donor list and book and then inserts it,
+	//then updates the account balance.
 	void addDonation(int cycle, string name, Date date, string category, int amount)
 	{
 		unordered_map<int, Report> temp = mBook.getBook();
@@ -207,6 +219,7 @@ public:
 				mYearEnd.getMonth(), mYearEnd.getDay(), date.getYear(), cycle };
 			mBook.setBook(temp);
 		}
+
 		if (find(mYears.begin(), mYears.end(), date.getYear()) == mYears.end())
 		{
 			mYears.push_back(date.getYear());
@@ -217,7 +230,9 @@ public:
 		
 		mBalance += amount;
 	}
-
+	
+	//Taking in a Donation type, it finds the correct place to insert 
+	//it into book and Donor list and inserts it there and updates the balance
 	void addDonation(Donation donation)
 	{
 		unordered_map<int, Report> temp = mBook.getBook();
@@ -241,7 +256,11 @@ public:
 
 		mBalance += donation.getAmount();
 	}
-	//add expense
+
+	//addDonation takes in the cycle, name/description of the item, 
+	//date of the purchase, category, and the amount spent, the store
+	// and the number of Items. It finds the correct place to
+	// insert it into the book and then inserts it and updates the account balance
 	void addExpense(int cycle, string name, Date date, string category, double amount, string store, int numItems)
 	{
 		unordered_map<int, Report> temp = mBook.getBook();
@@ -260,6 +279,9 @@ public:
 		mBook.addExpense(cycle, name, date, category, amount, store, numItems);
 		mBalance += amount;
 	}
+
+	//Taking in an Expense type, it finds the correct place to insert 
+	//it into book, inserts and updates the balance
 	void addExpense(Expense expense)
 	{
 		unordered_map<int, Report> temp = mBook.getBook();
@@ -280,6 +302,9 @@ public:
 		mBalance += expense.getAmount();
 	}
 
+	//Passes the information on to the book class to remove the information, If it is 
+	// successfully completed, it updates the balance, this is to account for user error, 
+	// in case the user tries to remove an expense that was never entered.
 	void removeExpense(int cycle, string category, Date date, string name, int amount)
 	{
 		if (mBook.removeExpense(cycle, category, date, name, amount))
@@ -288,6 +313,10 @@ public:
 		}
 	}
 
+	//RemoveDonation, checks the donor records and removes that donor from
+	//the donor list (since they have not made any donations, saving space)
+	//It also passes the info to the book and the donor list to remove the donation
+	//if it was successfully removed, the balance is adjusted
 	void removeDonation(int cycle, Date date, string name, int amount)
 	{
 		unordered_map<int, vector<Donation>> temp = mDonors[name].getDonations();
@@ -314,7 +343,10 @@ public:
 		}
 	}
 
-	//save
+	//Save makes the name of the file from 'username'.csv
+	// It prints the initial account balance, year start and end dates
+	// the donor names and contact info, and then the transactions
+	// ToDo: Encrypt info before printing to file
 	void save()
 	{
 		string filename = mUsername + ".csv";
@@ -369,7 +401,12 @@ public:
 
 	
 
-	//load
+	//Load reads in the user's info from 'username'.csv
+	//Reads each line of the file and parses it appropriately
+	// It starts with the initial account balance and then 
+	// as transactions are added, it "recalculates" the balance as
+	// if all the transactions are being entered.
+	// Add, Dycrypt info
 	void load()
 	{
 		string filename = mUsername + ".csv";

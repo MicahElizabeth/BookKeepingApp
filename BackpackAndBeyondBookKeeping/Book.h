@@ -1,13 +1,21 @@
+/*******************************************************************
+* Programmer: Micah Jenkins                                        *
+* Date Created: October 9 2015                                     *
+* Date Last modified: February 16 2016                             *
+********************************************************************/
+
 #ifndef BOOK_H
 #define BOOK_H
 
 #include "Report.h"
 
+//This is the object that holds repeorts for every financial cycle
+//mainly used as a container for orginization,
 class Book
 {
 private:
 	//year needs to be a range somehow. use id where between date and date = id etc
-	unordered_map<int, Report> mBook; // key:id value:detailed report for the year
+	unordered_map<int, Report> mBook; // key:id/cycle value:detailed report for the year
 	//vector<int> mYears; //actually ids
 public:
 #pragma region Big5

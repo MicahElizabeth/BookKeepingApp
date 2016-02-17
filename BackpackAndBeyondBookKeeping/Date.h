@@ -1,6 +1,13 @@
+/*******************************************************************
+* Programmer: Micah Jenkins                                        *
+* Date Created: October 9 2015                                     *
+* Date Last modified: February 16 2016                             *
+********************************************************************/
+
 #ifndef DATE_H
 #define DATE_H
 
+//A class to hold the day month and year together
 class Date
 {
 private:

@@ -1,3 +1,9 @@
+/*******************************************************************
+* Programmer: Micah Jenkins                                        *
+* Date Created: October 9 2015                                     *
+* Date Last modified: February 16 2016                             *
+********************************************************************/
+
 #ifndef TEST_H
 #define TEST_H
 #include "UI.h"

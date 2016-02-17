@@ -1,3 +1,8 @@
+/*******************************************************************
+* Programmer: Micah Jenkins                                        *
+* Date Created: October 9 2015                                     *
+* Date Last modified: February 16 2016                             *
+********************************************************************/
 #ifndef DONOR_H
 #define DONOR_H
 
@@ -9,6 +14,10 @@ using std::string;
 using std::vector;
 using std::unordered_map;
 
+//This is a person who donates to the user
+// it has feilds for contact informaton,
+// a list (by year) of their donations, and
+// the total amount they've donated
 class Donor
 {
 private:
@@ -132,7 +141,7 @@ public:
 		return mPhoneNumber;
 	}
 #pragma endregion
-	//print donation reciept (date1, date2) filename = 'name''Date1''Date2'
+	
 	//add
 	void addDonation(Donation donation)
 	{

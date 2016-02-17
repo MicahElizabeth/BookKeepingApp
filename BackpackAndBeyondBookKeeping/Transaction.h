@@ -1,9 +1,16 @@
+/*******************************************************************
+* Programmer: Micah Jenkins                                        *
+* Date Created: October 9 2015                                     *
+* Date Last modified: February 16 2016                             *
+********************************************************************/
+
 #ifndef TRANSACTION_H
 #define TRANSACTION_H
 #include <string>
 #include "Date.h"
 using std::string;
 
+//The base class for Expense and Donation (the two types of transactions)
 class Transaction
 {
 protected:

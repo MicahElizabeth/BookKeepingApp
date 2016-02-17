@@ -1,3 +1,9 @@
+/*******************************************************************
+* Programmer: Micah Jenkins                                        *
+* Date Created: October 9 2015                                     *
+* Date Last modified: February 16 2016                             *
+********************************************************************/
+
 #ifndef WRITER_H
 #define WRITER_H
 
@@ -7,6 +13,7 @@
 using std::string;
 using std::to_string;
 
+//This class is to write the reports to files
 static class Writer
 {
 public:

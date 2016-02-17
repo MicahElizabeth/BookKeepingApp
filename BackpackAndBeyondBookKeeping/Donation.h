@@ -1,7 +1,15 @@
+/*******************************************************************
+* Programmer: Micah Jenkins                                        *
+* Date Created: October 9 2015                                     *
+* Date Last modified: February 16 2016                             *
+********************************************************************/
+
 #ifndef DONATION_H
 #define DONATION_H
 #include "Transaction.h"
 
+//Inherits from transaction, this class
+//contains the information and methods for one donation
 class Donation :public Transaction
 {
 private:

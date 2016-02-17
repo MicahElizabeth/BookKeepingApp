@@ -1,3 +1,9 @@
+/*******************************************************************
+* Programmer: Micah Jenkins                                        *
+* Date Created: October 9 2015                                     *
+* Date Last modified: February 16 2016                             *
+********************************************************************/
+
 #include "App.h"
 #include "Test.h"
 int main(int argc, char* argv[])

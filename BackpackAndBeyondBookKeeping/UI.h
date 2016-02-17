@@ -1,3 +1,8 @@
+/*******************************************************************
+* Programmer: Micah Jenkins                                        *
+* Date Created: October 9 2015                                     *
+* Date Last modified: February 16 2016                             *
+********************************************************************/
 #ifndef UI_H
 #define UI_H
 
@@ -13,6 +18,8 @@ using std::vector;
 using std::fflush;
 using std::getline;
 
+//This is the interaction with the user through the CONSOLE
+//all methods are static
 class UI
 {
 private:
@@ -33,7 +40,7 @@ public:
 #pragma endregion
 #pragma region Getters and Putters
 	//These will be phrases to prompt the user, read and return their response. 
-		//will NOT validate information given(that's up to the individual classes)
+		
 	//username or new username
 	static string getUsername()
 	{

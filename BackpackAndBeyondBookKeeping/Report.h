@@ -1,3 +1,9 @@
+/*******************************************************************
+* Programmer: Micah Jenkins                                        *
+* Date Created: October 9 2015                                     *
+* Date Last modified: February 16 2016                             *
+********************************************************************/
+
 #ifndef REPORT_H
 #define REPORT_H
 
@@ -12,7 +18,10 @@ using std::vector;
 using std::tuple;
 using std::get;
 
+//This class is one cycles worth of information
 //report file names will be 'username''type''date-date'
+//organized by category
+//It also has methods for various calculations
 class Report
 {
 private:
@@ -143,7 +152,9 @@ public:
 	{
 		return mId;
 	}
-
+#pragma endregion
+#pragma region Calculations
+	//calculates the total expenditures for the cycle
 	int getTotalExpenditures()
 	{
 		int total = 0;
@@ -161,6 +172,7 @@ public:
 		return total;
 	}
 
+	//calculates the total donations for the cycle
 	int getTotalDonations()
 	{
 		int total=0;
@@ -171,6 +183,8 @@ public:
 		return total;
 	}
 
+	//Calculates the totals for each month, returning them as a 
+	// vector of (month, expense total, donation total)
 	vector<tuple<string, int, int>> getMonthTotals()
 	{
 		vector<tuple<string, int, int> > result{};
@@ -211,6 +225,8 @@ public:
 		return result;
 	}
 
+	//Calculates the totals for each category
+	// returns them in a vector of (category, amount) tuples
 	vector<tuple<string, int>> getCategoryTotals()
 	{
 		vector<tuple<string, int> > result{};
@@ -228,14 +244,6 @@ public:
 
 		return result;
 	}
-#pragma endregion
-#pragma region writing and saving
-	
-	//produce report(string startdate, string enddate) --> by date, month sepparated, donations and expenses separated
-	//produce report donations
-	//produce report expenses
-	//produce report by type
-	//produce report(month)
 #pragma endregion
 #pragma region add and remove
 	//add donation

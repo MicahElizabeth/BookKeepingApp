@@ -1,5 +1,11 @@
-/*TODO: (print reports), help page
-Future updates: Add GUI, ability to edit donor info*/
+/*******************************************************************
+* Programmer: Micah Jenkins                                        *
+* Date Created: October 9 2015                                     *
+* Date Last modified: February 16 2016                             *
+* TODO: Encrypt/decrypt the data that is being saved/loaded from   *
+* Future updates: Add GUI (make data and UI more decoupled,        *
+*                 ability to edit donor info                       *
+********************************************************************/
 
 #ifndef APP_H
 #define APP_H
@@ -17,14 +23,16 @@ using std::stack;
 using std::tuple;
 using std::get;
 
+//Class has all the outer app functionality
+// including linking the UI to the data
 class App
 {
 private:
-	unordered_map<string, tuple<string, string>> mAccounts; //key:username value:password
-	Account mUser;
-	stack<int> mHistory;
+	unordered_map<string, tuple<string, string>> mAccounts; // List af all the accounts this app has access to key:username value:password
+	Account mUser; //the account that is loggin in to
+	stack<int> mHistory; //to support the back button
 	bool mLoggedIn;
-	//encrypt
+	//encrypts the username and password
 	void encryptAccountInfo(string &username, string &password)
 	{
 		int temp;
@@ -45,7 +53,7 @@ private:
 		}
 		password = tempS;
 	}
-	//decrypt
+	//decrypts the username and password
 	void decryptUserInfo(string &username, string &password)
 	{
 		int temp;
@@ -227,6 +235,7 @@ public:
 		}
 	}
 	//log in
+	// validates the username and password, then calls load on their account
 	void logIn()
 	{
 		//make sure they want to log in
@@ -316,6 +325,7 @@ public:
 	}
 #pragma endregion
 #pragma region Edit/Add/Remove
+
 	void editUsername()
 	{
 		string tempS{};
@@ -471,6 +481,8 @@ public:
 
 		mHistory.push(-1);
 	}
+	//using the static UI class, prompts the user for the types of reports
+	//they want to generate, then generates them 
 	void reports()
 	{
 		do
@@ -614,9 +626,7 @@ public:
 					mUser.save();
 					//save
 					mLoggedIn = false;
-					//call the destructor so that if the user logs back in, 
-					//the data is fresh
-					//mUser.~Account();
+					
 				}
 				mHistory.push(UI::homeScreen());
 				break;
@@ -688,11 +698,11 @@ public:
 			}
 		} while (mHistory.top() != 4);
 		
-		saveAccounts();
+		saveAccounts(); //save the login info for the accounts
 		
 	}
 	
-	//laod user/passwords
+	//laod user/password combos from file and decrypt them
 	void loadAccounts()
 	{
 		ifstream infile{ "Accounts.txt", ios::in };
@@ -723,6 +733,7 @@ public:
 		
 	}
 
+	//save user/password combos to a file encrypting them first
 	void saveAccounts()
 	{
 		ofstream outfile{"Accounts.txt", ios::out };

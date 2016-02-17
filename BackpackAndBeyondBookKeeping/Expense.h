@@ -1,7 +1,16 @@
+/*******************************************************************
+* Programmer: Micah Jenkins                                        *
+* Date Created: October 9 2015                                     *
+* Date Last modified: February 16 2016                             *
+********************************************************************/
+
 #ifndef EXPENSE_H
 #define EXPENSE_H
 #include "Transaction.h"
 
+//Inheriting from transaction, this class also stores
+// the "store", and number of Items purchased to allow the
+// user the ability to be as detailed as they want
 class Expense: public Transaction
 {
 private:
